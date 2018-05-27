@@ -158,6 +158,10 @@ public class EstadoJugadorBT implements EstadoBT<SolucionJugadorBT, Integer> {
 	}
 
 	public Double getObjetivoEstimado(Integer a){
-		return null;
+		Integer acumuladorTiros = 0;
+		for(int i = index; i<players.size();i++){
+			acumuladorTiros += (players.get(i).getTirosCortos() + players.get(i).getTirosLargos());
+		}
+		return (double)acumuladorTiros;
 	}
 }

@@ -56,6 +56,17 @@ public class SolucionJugador {
 		return true;
 	}
 
+	private Double getObjetivo() {
+		//TODO ALUMNOS: EL CUERPO DEL MÉTODO.
+		Double tirosTotales = 0.;
+		for(Jugador a:jugadores){
+			tirosTotales += (double) a.getTirosCortos();
+			tirosTotales += (double) a.getTirosLargos();
+		}
+		return tirosTotales;
+		
+	}
+	
 	@Override
 	public String toString() {
 		//return "SolucionJugador [jugadores=" + jugadores + "]";
@@ -72,11 +83,11 @@ public class SolucionJugador {
 				if(a.getPosicion1().equals("Base")||a.getPosicion2().equals("Base")) base++;
 			
 		}
-		res = res + "\n Pivots solución: " + pivots;
+		res = res + "\n\n Pivots solución: " + pivots;
 		res = res + "\n Aleros solución: " + aleros;
 		res = res + "\n Bases solución: " + base;
 		res = res + "\n Convocados: " + numeroConvocados + "\n";
-		//res = res + "\n Tiros: " + getObjetivo() + "\n";
+		res = res + "\n Tiros: " + getObjetivo() + "\n";
 		return res;
 	}
 

@@ -145,9 +145,9 @@ public class Jugador {
 
 	@Override
 	public String toString() {
-		return "Jugador [id=" + id + ", nombre=" + nombre + ", posicion1=" + posicion1 + ", posicion2=" + posicion2
+		return "\nJugador [id=" + id + ", nombre=" + nombre + ", posicion1=" + posicion1 + ", posicion2=" + posicion2
 				+ ", cache=" + cache + ", nacion=" + nacion + ", minutosJugados=" + minutosJugados + ", tirosCortos="
-				+ tirosCortos + ", tirosLargos=" + tirosLargos + "]\n";
+				+ tirosCortos + ", tirosLargos=" + tirosLargos + "]";
 	}
 
 

@@ -184,12 +184,21 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 	
 	@Override
 	public Double getObjetivoEstimado(Integer a) {
-		return Double.MIN_VALUE;
+		Integer acumuladorTiros = 0;
+		for(int i = index; i<players.size();i++){
+			acumuladorTiros += (players.get(i).getTirosCortos() + players.get(i).getTirosLargos());
+		}
+		return (double)acumuladorTiros;
 	}
 
 	@Override
 	public Double getObjetivo() {
-		return Double.MAX_VALUE;
+		Double tirosTotales = 0.;
+		for(Jugador a:elegidos){
+			tirosTotales += (double) a.getTirosCortos();
+			tirosTotales += (double) a.getTirosLargos();
+		}
+		return tirosTotales;
 	}
 
 	@Override
@@ -200,6 +209,9 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 	}
 
 	//Hashcode y equals
+	//Aquí realmente con comparar simplemente por elegidos ya estaría
+	//Lo con esto no va a usar la memoria que pose pd porque siempre van a ser diferentes
+	//Para usar memoria deberíamos usar comparación mediante indice, numero de pivotes, numero aleros, numero base, coste acumulado y numero jugadores
 	@Override
 	public int hashCode() {
 		final int prime = 31;

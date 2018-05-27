@@ -30,9 +30,9 @@ public class TestJugadorBT {
 		if (a.getSoluciones().isEmpty()) 
 			System.out.println("No se encuentra ninguna solución.");
 		else 
-			for(SolucionJugadorBT s: a.getSoluciones())
-				System.out.println(s);
-		System.out.println(a.getSolucion());
+			//for(SolucionJugadorBT s: a.getSoluciones())
+				//System.out.println(s);
+				System.out.println(a.getSolucion());
 
 	}
 }

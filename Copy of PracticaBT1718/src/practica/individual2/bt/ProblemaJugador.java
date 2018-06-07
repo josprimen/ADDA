@@ -2,7 +2,6 @@ package practica.individual2.bt;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import us.lsi.stream.Stream2;
 
 public class ProblemaJugador {

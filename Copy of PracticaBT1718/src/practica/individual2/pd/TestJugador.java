@@ -21,12 +21,14 @@ public class TestJugador {
 		
 		
 		ProblemaPD<SolucionJugador, Integer> inicial = ProblemaJugador1PD2.create();
-		//System.out.println("Problema Inicial = " + inicial);
+		System.out.println("Problema Inicial = " + inicial);
 		AlgoritmoPD<SolucionJugador, Integer> a = Algoritmos.createPD(inicial);
 		a.ejecuta();
 		SolucionJugador s = a.getSolucion(inicial);
 		//System.out.println(a.getSolucion(inicial).toString() + separacion);
 		System.out.println("Solucion: " + s);
+		System.out.println("Valor a optimizar: "+a.solucionesParciales.get(inicial).propiedad);
+
 		
 		a.showAllGraph("ficheros/matrices.gv", "Matriz", inicial);
 	}

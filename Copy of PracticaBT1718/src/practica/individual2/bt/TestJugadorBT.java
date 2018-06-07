@@ -1,5 +1,6 @@
 package practica.individual2.bt;
 
+import us.lsi.algoritmos.AbstractAlgoritmo;
 import us.lsi.algoritmos.Algoritmos;
 import us.lsi.bt.AlgoritmoBT;
 
@@ -7,12 +8,11 @@ public class TestJugadorBT {
 
 	public static void main(String[] args) {
 	
-		//TODO ALUMNOS: variar el número de soluciones.
 		AlgoritmoBT.numeroDeSoluciones = 1;
 
-		//TODO ALUMNOS: probar qué ocurre al establecer isRandomize a true.
-		//AlgoritmoBT.isRandomize = true;
-		
+		//Para activar el filtro
+		AbstractAlgoritmo.calculaMetricas();
+		AlgoritmoBT.conFiltro = true;
 		
 		ProblemaJugador.create("ficheros/jugadores.txt", "ficheros/restricciones.txt");
 		System.out.println("Jugadores: \n"+ProblemaJugador.jugadores.toString());
@@ -23,8 +23,6 @@ public class TestJugadorBT {
 		EstadoJugadorBT p = EstadoJugadorBT.create();
 		AlgoritmoBT<SolucionJugadorBT ,Integer> a = Algoritmos.createBT(p);
 
-
-		
 		a.ejecuta();
 
 		if (a.getSoluciones().isEmpty()) 
@@ -32,7 +30,8 @@ public class TestJugadorBT {
 		else 
 			//for(SolucionJugadorBT s: a.getSoluciones())
 				//System.out.println(s);
-				System.out.println(a.getSolucion());
+				System.out.println("\n###############Solución##############\n" + a.getSolucion());
+				System.out.println("Cota: " + p.getObjetivoEstimado(1));
 
 	}
 }

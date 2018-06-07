@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import practica.individual2.bt.Jugador;
 import practica.individual2.bt.ProblemaJugador;
+import practica.individual2.bt.SolucionJugadorBT;
 import us.lsi.common.Preconditions;
 import us.lsi.pd.AlgoritmoPD.Sp;
 import us.lsi.pd.ProblemaPD;
@@ -16,6 +17,13 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 	private Integer index;
 	private Integer presupuestoRestante;
 	private List<Jugador> elegidos;
+	
+	private Integer nPivote;
+	private Integer nAleros;
+	private Integer nBases;
+	private Integer nJugadores;
+	
+	
 	//Compartidas
 	private List<Jugador> players;
 	private Integer n;
@@ -40,6 +48,10 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 		this.presupuestoRestante = ProblemaJugador.presupuesto;
 		this.elegidos = Lists.newArrayList();
 		
+		this.nPivote = 0;
+		this.nAleros = 0;
+		this.nBases = 0;
+		
 		this.players = ProblemaJugador.jugadores;
 		this.n = players.size()-1;
 		this.cantidadSuplentes = ProblemaJugador.numeroSuplentes;
@@ -50,9 +62,13 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 		this.presupuestoRestante = presupuesto; // HACER COPIA
 		this.elegidos = seleccionados;
 		
+		this.nPivote = getPosiciones(seleccionados).get(0);
+		this.nAleros = getPosiciones(seleccionados).get(1);
+		this.nBases = getPosiciones(seleccionados).get(2);
+		
 		this.players = ProblemaJugador.jugadores;
 		this.n = players.size();
-		this.cantidadSuplentes = ProblemaJugador.numeroSuplentes;
+		this.cantidadSuplentes = ProblemaJugador.numeroSuplentes-elegidos.size();
 
 	}
 
@@ -156,6 +172,22 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 	}
 
 	
+	public List<Integer> getPosiciones(List<Jugador> alfa){
+		Integer pivots = 0;
+		Integer aleros = 0;
+		Integer base = 0;
+		for(Jugador jugador: alfa){
+			if(jugador.getPosicion1().equals("Pivot")||jugador.getPosicion2().equals("Pivot")) pivots++;
+			if(jugador.getPosicion1().equals("Alero")||jugador.getPosicion2().equals("Alero")) aleros++;
+			if(jugador.getPosicion1().equals("Base")||jugador.getPosicion2().equals("Base")) base++;
+		}
+		List<Integer> cosas = new ArrayList<>();
+		cosas.add(pivots);
+		cosas.add(aleros);
+		cosas.add(base);
+		return cosas;
+	}
+	
 	
 	@Override
 	public SolucionJugador getSolucionReconstruidaCasoBase(Sp<Integer> sp) {
@@ -184,11 +216,15 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 	
 	@Override
 	public Double getObjetivoEstimado(Integer a) {
-		Integer acumuladorTiros = 0;
-		for(int i = index; i<players.size();i++){
+		//SolucionJugadorBT.create(elegidos).
+		Double tirosAcumulados = getObjetivo();
+		Double acumuladorTiros = tirosAcumulados;
+		acumuladorTiros += a * (players.get(index).getTirosCortos() + players.get(index).getTirosLargos());
+		
+		for(int i = index+1; i<players.size();i++){
 			acumuladorTiros += (players.get(i).getTirosCortos() + players.get(i).getTirosLargos());
 		}
-		return (double)acumuladorTiros;
+		return acumuladorTiros;
 	}
 
 	@Override
@@ -212,12 +248,31 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 	//Aquí realmente con comparar simplemente por elegidos ya estaría
 	//Lo con esto no va a usar la memoria que pose pd porque siempre van a ser diferentes
 	//Para usar memoria deberíamos usar comparación mediante indice, numero de pivotes, numero aleros, numero base, coste acumulado y numero jugadores
+	
+
+	@Override
+	public String toString() {
+		String resultado = "";
+		resultado += "index:" + index + ", presupuestoRestante: " + presupuestoRestante + ", [";
+		for(int i = 0; i<elegidos.size();i++){
+			if(i==0) resultado += elegidos.get(i).getNombre();
+			resultado += "," + elegidos.get(i).getNombre();
+		}
+		resultado += "]";
+		return resultado;
+		//return "ProblemaJugador1PD2 [index=" + index + ", presupuestoRestante=" + presupuestoRestante + ", elegidos="
+			//	+ elegidos.toString() + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((elegidos == null) ? 0 : elegidos.hashCode());
+		result = prime * result + ((cantidadSuplentes == null) ? 0 : cantidadSuplentes.hashCode());
 		result = prime * result + ((index == null) ? 0 : index.hashCode());
+		result = prime * result + ((nAleros == null) ? 0 : nAleros.hashCode());
+		result = prime * result + ((nBases == null) ? 0 : nBases.hashCode());
+		result = prime * result + ((nPivote == null) ? 0 : nPivote.hashCode());
 		result = prime * result + ((presupuestoRestante == null) ? 0 : presupuestoRestante.hashCode());
 		return result;
 	}
@@ -231,15 +286,30 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 		if (getClass() != obj.getClass())
 			return false;
 		ProblemaJugador1PD2 other = (ProblemaJugador1PD2) obj;
-		if (elegidos == null) {
-			if (other.elegidos != null)
+		if (cantidadSuplentes == null) {
+			if (other.cantidadSuplentes != null)
 				return false;
-		} else if (!elegidos.equals(other.elegidos))
+		} else if (!cantidadSuplentes.equals(other.cantidadSuplentes))
 			return false;
 		if (index == null) {
 			if (other.index != null)
 				return false;
 		} else if (!index.equals(other.index))
+			return false;
+		if (nAleros == null) {
+			if (other.nAleros != null)
+				return false;
+		} else if (!nAleros.equals(other.nAleros))
+			return false;
+		if (nBases == null) {
+			if (other.nBases != null)
+				return false;
+		} else if (!nBases.equals(other.nBases))
+			return false;
+		if (nPivote == null) {
+			if (other.nPivote != null)
+				return false;
+		} else if (!nPivote.equals(other.nPivote))
 			return false;
 		if (presupuestoRestante == null) {
 			if (other.presupuestoRestante != null)
@@ -249,11 +319,10 @@ public class ProblemaJugador1PD2 implements ProblemaPD<SolucionJugador, Integer>
 		return true;
 	}
 
+	
 
 
-	/*@Override
-	public String toString() {
-		return "(" + i + "," + j + ")";
-	}*/
+
+	
 
 }

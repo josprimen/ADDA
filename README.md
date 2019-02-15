@@ -1,14 +1,5 @@
 # ADDA
 Ligas de adda, etc.
 
-![Alt text](/josprimen/ADDA/Captura de pantalla (8).png?raw=true "Optional Title")
-![Alt text](/josprimen/ADDA/Captura de pantalla (9).png?raw=true "Optional Title")
-![Alt text](/ADDA/Captura de pantalla (8).png?raw=true "Optional Title")
+![captura de pantalla 8](https://user-images.githubusercontent.com/36623141/52858228-de080b00-3129-11e9-8fa0-7180c4b90a80.png)
 
-![ScreenShot](https://raw.github.com/{josprimen}/{ADDA}/{master}/{
-        ADDA/Captura de pantalla (8).png
-      })
-
-
-        ADDA/Captura de pantalla (8).png
-      

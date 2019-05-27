@@ -1,0 +1,91 @@
+package Problema1PDR;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import us.lsi.pd.AlgoritmoPD;
+import us.lsi.pd.AlgoritmoPD.Sp;
+import us.lsi.pd.AlgoritmoPD.Tipo;
+import us.lsi.pd.ProblemaPDR;
+
+public class ProblemaListaPD implements ProblemaPDR<List<Integer>, Integer, ProblemaListaPD> {
+
+	// Propiedades
+	public static List<Integer> subconjunto1;
+	public static List<Integer> subconjunto2;
+	private List<Integer> lista;
+	private Integer index;
+
+	public static ProblemaListaPD create() {
+		return new ProblemaListaPD();
+	}
+
+	public static ProblemaListaPD create(List<Integer> subconjunto1) {
+		return new ProblemaListaPD(subconjunto1);
+	}
+
+	private ProblemaListaPD() {
+		super();
+		this.subconjunto1 = new ArrayList<Integer>();
+	}
+
+	private ProblemaListaPD(List<Integer> subconjunto1) {
+		super();
+		this.subconjunto1 = subconjunto1;
+	}
+
+	public Tipo getTipo() {
+		return AlgoritmoPD.Tipo.Min;
+	}
+
+	//Esto no está completo
+	public int size() {
+		lista.removeAll(subconjunto1);
+		return lista.size();
+	}
+
+	// Es caso base cuando la suma de los dos subconjuntos sea la misma.
+	// Con lo que ha dicho Josenri.
+	public boolean esCasoBase() {
+		return lista.size() >= 1;
+	}
+
+	// Restricciones del problema
+	// Como segundo parámetro tengo que meter la longitud de la lista más pequeña.
+	public Sp<Integer> getSolucionParcialCasoBase() {
+		Sp<Integer> res = null;
+		if()
+		return null;
+	}
+	
+	//Me dice "dónde puedo comer".
+	public ProblemaListaPD getSubProblema(Integer a) {
+		
+		return null;
+	}
+
+	// No sé si está bien.
+	public Sp<Integer> getSolucionParcialPorAlternativa(Integer a, Sp<Integer> s) {
+		return Sp.create(a, s.propiedad);
+	}
+	
+	//Dice las alternativas que hay. NO HACE NADA MÁS. Dice qué se puede hacer.
+	public List<Integer> getAlternativas() {
+		List<Integer> lista = new ArrayList<Integer>();
+		for(Integer i: lista) {
+			
+		}
+		index++;
+		return lista;
+	}
+
+	public List<Integer> getSolucionReconstruidaCasoBase(Sp<Integer> sp) {
+		return null;
+	}
+
+	public List<Integer> getSolucionReconstruidaCasoRecursivo(Sp<Integer> sp, List<Integer> s) {
+		return null;
+	}
+
+}
